@@ -1,0 +1,2 @@
+streamlink
+tbapi==1.3.1b4
