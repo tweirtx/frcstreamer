@@ -25,7 +25,7 @@ class FRCStreamer:
 
 	def get_all_streams(self):
 		print("Getting all streams")
-		list_of_events = [event for event in self.tba.get_event_list() if event.start_date < datetime.datetime.now() < event.end_date]
+		list_of_events = [event for event in self.tba.get_event_list() if event.start_date <= datetime.datetime.now() <= event.end_date]
 		streams = []
 		for event in list_of_events:
 			streams.append({event.name: self.get_event_streams(event.key)})
