@@ -11,14 +11,15 @@ def get_raw_stream(url):
 
 def make_tba(api_key):
     """Makes a TBA parser"""
-    return tbapi.TBAParser(api_key)
+    return tbapi.TBAParser(api_key, cache=False)
 
 
 class FRCStreamer:
     """FRCStreamer"""
-    api_key = ""
 
-    tba = make_tba(api_key)
+    def __init__(self, api_key):
+        tba = make_tba(api_key=api_key)
+        pass
 
     def get_event_streams(self, event_key):
         """Get all streams for an event"""
