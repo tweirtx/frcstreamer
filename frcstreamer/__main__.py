@@ -14,12 +14,15 @@ def make_tba(api_key):
     return tbapi.TBAParser(api_key, cache=False)
 
 
+def validdate(event):
+    return event.start_date <= datetime.datetime.now() <= event.end_date
+
+
 class FRCStreamer:
     """FRCStreamer"""
 
     def __init__(self, api_key):
-        tba = make_tba(api_key=api_key)
-        pass
+        self.tba = make_tba(api_key=api_key)
 
     def get_event_streams(self, event_key):
         """Get all streams for an event"""
@@ -27,7 +30,11 @@ class FRCStreamer:
         strems = []
         event = self.tba.get_event(event_key)
         for cast in event.webcasts:
-            strems.append(get_raw_stream(cast.url))
+            if cast.type == "twitch":
+                castURL = "https://twitch.tv/{}".format(cast.channel)
+            else:
+                return
+            strems.append(get_raw_stream(castURL))
         return strems
 
     def get_stream_from_event(self, event_key):
@@ -37,8 +44,7 @@ class FRCStreamer:
     def get_all_streams(self):
         """Get every live FRC feed"""
         print("Getting all streams")
-        list_of_events = [event for event in self.tba.get_event_list()
-                          if event.start_date <= datetime.datetime.now() <= event.end_date]
+        list_of_events = [event for event in self.tba.get_event_list() if validdate(event)]
         streams = []
         for event in list_of_events:
             streams.append({event.name: self.get_event_streams(event.key)})
