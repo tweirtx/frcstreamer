@@ -39,6 +39,8 @@ class FRCStreamer:
         for cast in event.webcasts:
             if cast.type == "twitch":
                 castURL = "https://twitch.tv/{}".format(cast.channel)
+            elif cast.type == "youtube":
+                castURL = "https://youtube.com/watch?v={}".format(cast.channel)
             else:
                 return
             strems.append(get_raw_stream(castURL))
