@@ -14,8 +14,15 @@ def make_tba(api_key):
     return tbapi.TBAParser(api_key, cache=False)
 
 
+def make_day_from_tba(day_string):
+    year = int(day_string[0:4])
+    month = int(day_string[6:7])
+    day = int(day_string[8:10])
+    return datetime.datetime(year, month, day)
+
+
 def validdate(event):
-    return event.start_date <= datetime.datetime.now() <= event.end_date
+    return make_day_from_tba(event.start_date) <= datetime.datetime.now() <= make_day_from_tba(event.end_date)
 
 
 class FRCStreamer:
@@ -44,7 +51,8 @@ class FRCStreamer:
     def get_all_streams(self):
         """Get every live FRC feed"""
         print("Getting all streams")
-        list_of_events = [event for event in self.tba.get_event_list() if validdate(event)]
+        current_year = datetime.datetime.now().year
+        list_of_events = [event for event in self.tba.get_event_list(current_year) if validdate(event)]
         streams = []
         for event in list_of_events:
             streams.append({event.name: self.get_event_streams(event.key)})
