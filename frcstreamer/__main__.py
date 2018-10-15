@@ -15,9 +15,11 @@ def make_tba(api_key):
 
 
 def make_day_from_tba(day_string):
+    print(day_string)
     year = int(day_string[0:4])
-    month = int(day_string[6:7])
+    month = int(day_string[5:7])
     day = int(day_string[8:10])
+    print(year, month, day)
     return datetime.datetime(year, month, day)
 
 
