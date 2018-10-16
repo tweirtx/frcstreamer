@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
 	name='frcstreamer',
-	version='1.0.0',
+	version='1.0.2',
 	packages=['venv.lib.python36.site-packages.pip', 'venv.lib.python36.site-packages.pip._vendor',
 			  'venv.lib.python36.site-packages.pip._vendor.idna',
 			  'venv.lib.python36.site-packages.pip._vendor.pytoml',
